@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "name": "Windows x86",
+      "includePath": [
+        "C:\\MiniGUI\\HarbourSRC\\include",
+        "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319",
+
+        "${env.WindowsSdkDir}include\\${env.WindowsSDKVersion}\\ucrt",
+        "${env.NETFXSDKDir}\\include\\um",
+        "${env.WindowsSdkDir}include\\${env.WindowsSDKVersion}\\um",
+        "${env.WindowsSdkDir}include\\${env.WindowsSDKVersion}\\shared",
+        "${env.VCToolsInstallDir}include",
+        "${env.VCToolsInstallDir}atlmfc\\include"
+      ],
+      "defines": [ "_DEBUG" ],
+      "intelliSenseMode": "windows-msvc-x86",
+      "forcedInclude": [ "pch.h", "C:\\MiniGUI\\SAMPLES\\4PUBLISH\\HB_CLR_v4\\CLR_LIB\\mscorlib.tlh" ],
+      "undefines": []
+    }
+  ]
+}

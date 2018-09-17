@@ -1,0 +1,12 @@
+# Any optional arguments
+-prgflag=-w2 -es1
+-std
+-mt
+-inc
+#-debug
+
+-incpath=.
+
+# Main files
+demo.prg
+demo_add.cpp
