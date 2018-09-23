@@ -1,10 +1,11 @@
+#pragma once
+
 // For direct access to PHB_ITEM.asXXX.value methods
-// HB_IS_XXX(xxx) have a lot of additional useless checkings
+// HB_IS_XXX(xxx) has a lot of additional useless checkings
 #define _HB_API_INTERNAL_ 1
 
 // For warning instead errors
 #define __DEBUG
-
 #define EXPORT_FUNC extern "C" __declspec(dllexport)
 
 #include <windows.h>
@@ -13,7 +14,6 @@
 // Harbour includes
 #include <hbapi.h>
 #include <hbapiitm.h>
-
 #include "runtime.h"
 
 typedef struct {
@@ -27,11 +27,7 @@ typedef struct {
 	void (*errInternal)(HB_ERRCODE,const char*,const char*,const char*);
 } EXP_FUNCTIONS;
 
-typedef struct {
-	int count;
-	#pragma warning(suppress:4200) 
-	PHB_ITEM items[0];
-} HB_FUNC_ARGS;
+extern EXP_FUNCTIONS *hb;
 
 wchar_t *to_wchar(char *input);
 wchar_t *to_wchar(const char *input);
@@ -40,3 +36,7 @@ wchar_t *to_wchar(char *input, size_t size);
 EXPORT_FUNC void CLR_INIT(EXP_FUNCTIONS *funcs);
 EXPORT_FUNC CLR_Runtime* CLR_GET_RUNTIME(char*);
 EXPORT_FUNC PHB_ITEM CLR_CALL_STATIC(CLR_Runtime*, const char*, const char*, const char*, PHB_ITEM);
+
+_variant_t PHBITM_TO_VARIANT(PHB_ITEM pItem, bool *allowedType);
+CComSafeArray<VARIANT> HBARRAY_TO_SAFEARRAY(PHB_ITEM pInput);
+PHB_ITEM SAFEARRAY_TO_HBARRAY(variant_t tValue);

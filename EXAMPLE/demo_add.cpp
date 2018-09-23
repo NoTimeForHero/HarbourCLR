@@ -18,13 +18,8 @@ typedef struct {
 	HB_BOOL(*arrayAdd)(PHB_ITEM, PHB_ITEM);
 	void(*errInternal)(HB_ERRCODE, const char*, const char*, const char*);
 } EXP_FUNCTIONS;
-EXP_FUNCTIONS *hb;
 
-typedef struct {
-	int count;
-	#pragma warning(suppress:4200) 
-	PHB_ITEM items[0];
-} HB_FUNC_ARGS;
+EXP_FUNCTIONS *hb;
 
 EXP_FUNCTIONS* LOAD_EXP_FUNCTIONS() {
 	EXP_FUNCTIONS *funcs = (EXP_FUNCTIONS*) calloc(sizeof(EXP_FUNCTIONS), 1);
