@@ -39,7 +39,8 @@ char *sprintf_auto(char const *format, int *outLength, ...);
 // Signatures from: demo_lib.cpp
 EXPORT_FUNC void CLR_INIT(EXP_FUNCTIONS *funcs);
 EXPORT_FUNC CLR_Runtime* CLR_GET_RUNTIME(char*);
-EXPORT_FUNC PHB_ITEM CLR_CALL_STATIC(CLR_Runtime*, const char*, const char*, const char*, PHB_ITEM);
+EXPORT_FUNC CLR_Assembly* CLR_LOAD_ASSEMBLY(CLR_Runtime *runtime, const char *assemblyName);
+EXPORT_FUNC PHB_ITEM CLR_CALL_STATIC(CLR_Assembly*, const char*, const char*, PHB_ITEM);
 
 // Signatures from: arrays.cpp
 _variant_t PHBITM_TO_VARIANT(PHB_ITEM pItem, bool *allowedType);

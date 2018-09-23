@@ -35,13 +35,16 @@ EXP_FUNCTIONS* LOAD_EXP_FUNCTIONS() {
 }
 
 typedef void CLR_Runtime;
+typedef void CLR_Assembly;
 
 typedef void (*FUNC_CLR_INIT)(EXP_FUNCTIONS *funcs);
 typedef CLR_Runtime* (*FUNC_CLR_GET_RUNTIME)(const char *version);
-typedef PHB_ITEM(*FUNC_CLR_CALL_STATIC)(CLR_Runtime *runtime, const char *assemblyName, const char *className, const char *methodName, PHB_ITEM args);
+typedef CLR_Assembly* (*FUNC_CLR_LOAD_ASSEMBLY)(CLR_Runtime *runtime, const char *assemblyName);
+typedef PHB_ITEM(*FUNC_CLR_CALL_STATIC)(CLR_Assembly *assembly, const char *className, const char *methodName, PHB_ITEM args);
 
 FUNC_CLR_INIT clr_init;
 FUNC_CLR_GET_RUNTIME clr_get_runtime;
+FUNC_CLR_LOAD_ASSEMBLY clr_load_assembly;
 FUNC_CLR_CALL_STATIC clr_call_static;
 
 HINSTANCE HINST_DLL;
@@ -80,6 +83,12 @@ HB_FUNC(__CLR_INIT) {
 		return; 
 	}
 
+	clr_load_assembly = (FUNC_CLR_LOAD_ASSEMBLY)GetProcAddress(HINST_DLL, "CLR_LOAD_ASSEMBLY");
+	if (!clr_load_assembly) {
+		throwFuncLoadError("CLR_LOAD_ASSEMBLY");
+		return;
+	}
+
 	clr_call_static = (FUNC_CLR_CALL_STATIC) GetProcAddress(HINST_DLL, "CLR_CALL_STATIC");
 	if (!clr_call_static) {
 		throwFuncLoadError("CLR_CALL_STATIC");
@@ -90,9 +99,29 @@ HB_FUNC(__CLR_INIT) {
 	clr_init(LOAD_EXP_FUNCTIONS());
 }
 
+HB_FUNC(__CLR_LOAD_ASSEMBLY)
+{
+	if (!HINST_DLL || !clr_call_static)
+		hb_errInternal(2111, "Library is not loaded or already has been unloaded", NULL, NULL);
+
+	const int params_count = hb_pcount();
+	const int required_params = 2;
+
+	if (params_count != required_params) hb_errInternal(2000, "Invalid param count", NULL, NULL);
+
+	CLR_Runtime *runtime = hb_parptr(1);
+	if (!runtime) hb_errInternal(2001, "HARBOUR_CLR: Invalid Runtime Pointer", NULL, NULL);
+
+	const char *assemblyName = hb_parc(2);
+	if (!assemblyName) hb_errInternal(2003, "HARBOUR_CLR: Invalid Class Name", NULL, NULL);
+
+	void *result = (void*)clr_load_assembly(runtime, assemblyName);
+	hb_retptr(result);
+}
+
 HB_FUNC(__CLR_GET_RUNTIME) {
 	if (!HINST_DLL || !clr_get_runtime)
-		hb_errInternal(2099, "Library is not loaded or already has been unloaded", NULL, NULL);	
+		hb_errInternal(2111, "Library is not loaded or already has been unloaded", NULL, NULL);
 
 	const char *clrVersion = hb_parc(1);
 	if (!clrVersion) hb_errInternal(2005, "Invalid CLR version...", NULL, NULL);	
@@ -102,33 +131,27 @@ HB_FUNC(__CLR_GET_RUNTIME) {
 }
  
 HB_FUNC(__CLR_CALL_STATIC) {
-
 	if (!HINST_DLL || !clr_call_static)
 		hb_errInternal(2111, "Library is not loaded or already has been unloaded", NULL, NULL);	
 
-	int params_count = hb_pcount();
- 	int required_params = 4;
+	const int params_count = hb_pcount();
+ 	const int required_params = 3;
 
 	if (params_count < required_params) hb_errInternal(2000, "Invalid param count", NULL, NULL);	
 
-	CLR_Runtime *runtime = hb_parptr ( 1 );
-	if (!runtime) hb_errInternal(2001, "HARBOUR_CLR: Invalid Pointer", NULL, NULL);		
+	CLR_Assembly *assebmly = hb_parptr ( 1 );
+	if (!assebmly) hb_errInternal(2001, "HARBOUR_CLR: Invalid Assembly Pointer", NULL, NULL);
 
-	const char *assemblyName = hb_parc( 2 );
-	if (!assemblyName) hb_errInternal(2002, "HARBOUR_CLR: Invalid Assembly Name", NULL, NULL);		
+	const char *className = hb_parc( 2 );
+	if (!className) hb_errInternal(2003, "HARBOUR_CLR: Invalid Class Name", NULL, NULL);
 
-	const char *className = hb_parc( 3 );
-	if (!assemblyName) hb_errInternal(2003, "HARBOUR_CLR: Invalid Class Name", NULL, NULL);
-
-	const char *methodName = hb_parc( 4 );
-	if (!assemblyName) hb_errInternal(2004, "HARBOUR_CLR: Invalid Method Name", NULL, NULL);
+	const char *methodName = hb_parc( 3 );
+	if (!methodName) hb_errInternal(2004, "HARBOUR_CLR: Invalid Method Name", NULL, NULL);
 
 	PHB_ITEM pArray = hb_itemArrayNew( params_count - required_params );
 	for (int i=required_params+1;i<=params_count;i++)
 		hb_itemArrayPut(pArray, i-required_params, hb_param(i, HB_IT_ANY));
 	 
-	PHB_ITEM result = clr_call_static(runtime, assemblyName, className, methodName, pArray);
+	PHB_ITEM result = clr_call_static(assebmly, className, methodName, pArray);
 	hb_itemMove(hb_stackReturnItem(), result);
 }
-
-                                                                                    
