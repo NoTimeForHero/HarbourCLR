@@ -5,4 +5,5 @@ Work in Progress:
 TODO:
 * Write normal README.md
 * Realize cleanup (with hb_retptrGC?)
+* Check is it ok to free HB_errInternal const char * message after call
 * Callbacks (with additional C# assembly for normal syntax?)

@@ -1,5 +1,5 @@
 PROCEDURE Main
-	LOCAL aData, pCLR, pAssembly
+	LOCAL aData, pCLR, pAssembly, pObj, xVal
 	LOCAL aValue
 
 	__CLR_INIT()
@@ -11,7 +11,21 @@ PROCEDURE Main
 	//? pCLR
 	
 	pAssembly := __CLR_LOAD_ASSEMBLY(pCLR, "MyAssembly")
+	
+	// ================= TEST2 ============================
+	? __CLR_CREATE_INSTANCE(pAssembly, "MyNamespace.Class2", 322, 3.141569)
+	? __CLR_CREATE_INSTANCE(pAssembly, "MyNamespace.Class2", "Is constructor of CLR Object has been called?")
 
+	// ================= TEST3 ============================
+	pObj := __CLR_CREATE_INSTANCE(pAssembly, "MyNamespace.Class3")
+	__CLR_CALL(pObj, "Add", 25)
+	__CLR_CALL(pObj, "Add", 50)
+	__CLR_CALL(pObj, "Add", 100)
+	xVal := __CLR_CALL(pObj, "Result")
+	? "Object Sum: ", xVal
+	INKEY(0)
+
+	// ================= TEST1 ============================
 	//__CLR_CALL_STATIC(pCLR, "MyAssembly", "MyNamespace.Class1", "GetData")	
 	aValue := __CLR_CALL_STATIC(pAssembly, "MyNamespace.Class1", "getData2")
 	//? "VALUE TYPE: ", ValType(aValue), " LEN: ", LEN(aValue)

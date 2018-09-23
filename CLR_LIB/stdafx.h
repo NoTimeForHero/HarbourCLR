@@ -40,6 +40,8 @@ char *sprintf_auto(char const *format, int *outLength, ...);
 EXPORT_FUNC void CLR_INIT(EXP_FUNCTIONS *funcs);
 EXPORT_FUNC CLR_Runtime* CLR_GET_RUNTIME(char*);
 EXPORT_FUNC CLR_Assembly* CLR_LOAD_ASSEMBLY(CLR_Runtime *runtime, const char *assemblyName);
+EXPORT_FUNC CLR_Object* CLR_CREATE_INSTANCE(CLR_Assembly* assembly, const char *className, PHB_ITEM pArgs);
+EXPORT_FUNC PHB_ITEM CLR_CALL(CLR_Object* object, const char *methodName, PHB_ITEM pArgs);
 EXPORT_FUNC PHB_ITEM CLR_CALL_STATIC(CLR_Assembly*, const char*, const char*, PHB_ITEM);
 
 // Signatures from: arrays.cpp

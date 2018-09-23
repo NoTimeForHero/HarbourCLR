@@ -64,4 +64,32 @@ namespace MyNamespace
 	    }	
 
    }
+
+    public class Class2
+    {
+        public Class2(int a, double b)
+        {
+            MessageBox.Show($"Created class with a={a}, b={b}");
+        }
+
+        public Class2(string message)
+        {
+            MessageBox.Show($"Created class with message:\n{message}");
+        }
+    }
+
+    public class Class3
+    {
+        public int sum;
+
+        public void Add(int sum)
+        {
+            this.sum += sum;
+        }
+
+        public int Result()
+        {
+            MessageBox.Show($"Total sum: {sum}");
+        }
+    }
 }
