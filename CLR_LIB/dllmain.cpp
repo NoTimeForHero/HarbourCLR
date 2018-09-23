@@ -20,6 +20,20 @@ wchar_t *to_wchar(char *input) {
 	return to_wchar(input, strlen(input));
 }
 
+char *sprintf_auto(char const *format, int *outLength, ...)
+{
+	va_list args;
+	va_start(args, outLength);
+
+	const int buffer_size = _vscprintf(format, args) + 1;
+	char *buffer = (char*)malloc(buffer_size * sizeof(char));
+
+	const int printf_len = vsprintf_s(buffer, buffer_size, format, args);
+	if (outLength != nullptr) *outLength = printf_len;
+
+	va_end(args);
+	return buffer;
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {

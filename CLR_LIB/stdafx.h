@@ -1,4 +1,5 @@
 #pragma once
+#define DLL_VERSION "0.2 Alpha"
 
 // For direct access to PHB_ITEM.asXXX.value methods
 // HB_IS_XXX(xxx) has a lot of additional useless checkings
@@ -29,14 +30,18 @@ typedef struct {
 
 extern EXP_FUNCTIONS *hb;
 
+// Signatures from: dllmain.cpp
 wchar_t *to_wchar(char *input);
 wchar_t *to_wchar(const char *input);
 wchar_t *to_wchar(char *input, size_t size);
+char *sprintf_auto(char const *format, int *outLength, ...);
 
+// Signatures from: demo_lib.cpp
 EXPORT_FUNC void CLR_INIT(EXP_FUNCTIONS *funcs);
 EXPORT_FUNC CLR_Runtime* CLR_GET_RUNTIME(char*);
 EXPORT_FUNC PHB_ITEM CLR_CALL_STATIC(CLR_Runtime*, const char*, const char*, const char*, PHB_ITEM);
 
+// Signatures from: arrays.cpp
 _variant_t PHBITM_TO_VARIANT(PHB_ITEM pItem, bool *allowedType);
 CComSafeArray<VARIANT> HBARRAY_TO_SAFEARRAY(PHB_ITEM pInput);
 PHB_ITEM SAFEARRAY_TO_HBARRAY(variant_t tValue);
