@@ -16,8 +16,6 @@ rem move %TARGET%.dll %DIST%
 
 call testall.bat
 
-echo SUCCESSULLY FINISHED
-
 :error
 if %errorlevel% neq 0 (
 	color %ERR_COLOR%

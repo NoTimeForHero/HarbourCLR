@@ -4,7 +4,8 @@ PROCEDURE Main
 
 	TEST(1, 25, 25)
 	TEST(2, "TEST", "TEST")
-	TEST(3, 300, 500)
+	TEST(3, {5, 25, {{50}}}, {5, 25, {{30}}})
+	TEST(4, 300, 500)
 	
 	// TODO: Write Real Tests
 	ExitProcess(0)
@@ -47,7 +48,44 @@ PROCEDURE Main
 RETURN
 
 PROCEDURE TEST(nID, Expected, Result)
+LOCAL nI
+	IF ValType(Expected) != ValType(Result)
+		?
+		? "Test #" + ALLTRIM(STR(nID)) + " Failed!"
+		? "Expected Type: ", ValType(Expected)
+		? "Result Type: ", ValType(Result)
+		ExitProcess(nID)
+	ENDIF
+	
+	IF ValType(Expected) == "A"	
+		IF (LEN(Expected) != LEN(Result))
+			?
+			? "Test #" + ALLTRIM(STR(nID)) + " Failed!"
+			? "Length of Expected array: ", LEN(Expected)
+			? "Length of Result array: ", LEN(Result)
+			ExitProcess(nID)
+		ENDIF
+	
+		FOR nI := 1 TO LEN(Expected)
+			IF ValType(Expected[nI]) == "A" .OR. ValType(Result[nI]) == "A"
+				TEST(nID, Expected[nI], Result[nI])
+			ELSE
+				IF Expected[nI] != Result[nI]
+					?
+					? "Test #" + ALLTRIM(STR(nID)) + " Failed!"
+					? "Array item: " + ALLTRIM(STR(nI))
+					? "Expected value:", Expected[nI]
+					? "Result value:", Result[nI]
+					ExitProcess(nID)
+				ENDIF
+			ENDIF
+		NEXT
+
+		RETURN
+	ENDIF
+
 	IF Expected != Result
+		?
 		? "Test #" + ALLTRIM(STR(nID)) + " Failed!"
 		? "Expected: ", Expected
 		? "Got result: ", Result
