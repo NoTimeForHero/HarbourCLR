@@ -5,7 +5,7 @@ IF ERRORLEVEL 1 echo [ERROR]: Can't enable EnableExtensions/EnableDelayedExpansi
 
 set INCLUDE=%INCLUDE%;%HB_ROOT%\include
 set LIB=%LIB%;%HB_ROOT%\lib\win\msvc
-set TARGET=demo_lib
+set TARGET=clrdyn
 
 for %%i in (*.cpp) do set CPP_FILES=%%i !CPP_FILES!
 
@@ -17,6 +17,7 @@ del *.exp
 
 move %TARGET%.dll %DIST%
 if exist %TARGET%.pdb move %TARGET%.pdb %DIST%
+del *.lib
 
 if %errorlevel% neq 0 (
 	color %ERR_COLOR%

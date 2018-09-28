@@ -10,5 +10,5 @@
 #-incpath=.
 
 # Main files
-demo.prg
+tests.prg
 -lclr

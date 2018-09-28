@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <hbapiitm.h>
 
-char* GLOBAL_DLL_NAME = "demo_lib.dll";
+char* GLOBAL_DLL_NAME = "clrdyn.dll";
 
 typedef struct {
 	PHB_ITEM(*itemNew)(PHB_ITEM);

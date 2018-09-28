@@ -1,0 +1,10 @@
+-hblib
+-inc
+-oclr
+-I../../include
+
+-warn=max
+-w3 -es2 -ko -q0
+
+main.prg
+functions.cpp
