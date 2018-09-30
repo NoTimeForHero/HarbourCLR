@@ -4,7 +4,7 @@ PROCEDURE Main
 	__CLR_INIT()
 	pCLR := __CLR_GET_RUNTIME("v4.0.30319")
 	pAssembly := __CLR_LOAD_ASSEMBLY(pCLR, "Tests")
-
+	
 	// Signed numbers: byte 120, short 30000, int 5000000, long 2000000000
 	aValue := __CLR_CALL_STATIC(pAssembly, "MyNamespace.Test1", "GetSignedNumbers")
 	TEST(1, {120, 30000, 5000000, 2000000000}, aValue)
@@ -71,6 +71,9 @@ LOCAL nI
 				ENDIF
 			ENDIF
 		NEXT
+
+		? "Test #" + ALLTRIM(STR(nID)) + " Passed -> "
+		?? HB_ValToExp(Expected)
 
 		RETURN
 	ENDIF

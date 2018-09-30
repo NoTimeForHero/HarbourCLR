@@ -7,35 +7,30 @@ _variant_t PHBITM_TO_VARIANT(PHB_ITEM pItem, bool *allowedType)
 	if (type & HB_IT_LOGICAL) {
 		*allowedType = true;
 		const bool value = pItem->item.asLogical.value;
-		printf("Logical");
 		return _variant_t(value);
 	}
 
 	if (type & HB_IT_INTEGER) {
 		*allowedType = true;
 		const int value = pItem->item.asInteger.value;
-		printf("Integer");
 		return _variant_t(value);
 	}
 
 	if (type & HB_IT_LONG) {
 		*allowedType = true;
 		const long value = pItem->item.asLong.value;
-		printf("Long");
 		return _variant_t(value);
 	}
 
 	if (type & HB_IT_DOUBLE) {
 		*allowedType = true;
 		const double value = pItem->item.asDouble.value;
-		printf("Double");
 		return _variant_t(value);
 	}
 
 	if (type & HB_IT_STRING) {
 		*allowedType = true;
 		const char *value = pItem->item.asString.value;
-		printf("String");
 		return _variant_t(value);
 	}
 
@@ -109,13 +104,11 @@ go_deep:
 		pItem = pArgs->item.asArray.value->pItems + i;
 		HB_TYPE type = pItem->type;
 		bool allowedType = false;
-		printf("[Level %d] Item %d (type 0x%05X): ", arrStack.size(), i, type);
 
 		const variant_t value = PHBITM_TO_VARIANT(pItem, &allowedType);
 		if (allowedType) sharp_arguments.Add(value);
 
 		if (pItem->type & HB_IT_ARRAY) {
-			printf("GOTO INNER ARRAY\n");
 			CComSafeArray<VARIANT> deep_array((ULONG)0);
 			arrStack.push(std::make_tuple(sharp_arguments, pArgs, i + 1));
 			pArgs = pItem;
@@ -123,8 +116,6 @@ go_deep:
 			iStart = 0;
 			goto go_deep;
 		}
-
-		printf("%s\n", allowedType ? "" : " - NOT_ALLOWED_TYPE");
 
 		if (!allowedType) {
 			char buffer[200];
@@ -138,7 +129,6 @@ go_deep:
 	}
 	if (!arrStack.empty())
 	{
-		printf("Escape from level %d\n", arrStack.size());
 		const auto current = arrStack.top();
 		arrStack.pop();
 		CComSafeArray<VARIANT> deep_array = std::get<0>(current);
@@ -162,8 +152,6 @@ go_deep:
 PHB_ITEM SAFEARRAY_TO_HBARRAY(variant_t tValue)
 {
 	HRESULT hr;
-	char offset[50];
-	memset(&offset, ' ', 50);
 	int off_len = 0;
 
 	PHB_ITEM pArray = hb->itemArrayNew(0);
@@ -175,7 +163,6 @@ array_foreach:
 
 	if (V_ISARRAY(&tValue)) // Is Array
 	{
-		if (startI < 1) printf("%.*s{\n", off_len, offset);
 
 		VARTYPE itemType;
 		if (FAILED(hr = SafeArrayGetVartype(tValue.parray, &itemType))) throw NetException("Getting array type", hr);
@@ -185,12 +172,8 @@ array_foreach:
 		if (pSafeArray.GetDimensions() > 1) throw NetException("Multidimensional arrays are not supported!");
 		const long cnt_elements = pSafeArray.GetCount();
 
-		if (startI < 1) printf("%.*s[Type=%s:%hu, Size=%ld]\n", off_len + 3, offset, CLR_Runtime::type_name(itemType), itemType,
-			cnt_elements);
-
 		for (int i = startI; i < cnt_elements; i++)
 		{
-			printf("%.*s%d. (%d:%s) => ", off_len + 3, offset, i + 1, pSafeArray[i].vt, CLR_Runtime::type_name(pSafeArray[i].vt));
 			if (V_ISARRAY(&pSafeArray[i]))
 			{
 				off_len += 3;
@@ -204,9 +187,8 @@ array_foreach:
 
 			hb->arrayAdd(pArray, VARIANT_TO_PHBITM(pSafeArray[i]));
 			CLR_Runtime::print_variant(pSafeArray[i]);
-			printf("\n");
 		}
-		printf("\n%.*s}\n", off_len, offset);
+
 		if (!arrStack.empty())
 		{
 			off_len -= 3;
@@ -221,7 +203,6 @@ array_foreach:
 
 			goto array_foreach;
 		}
-		printf("========= END REACHED ============");
 	}
 	else
 	{
