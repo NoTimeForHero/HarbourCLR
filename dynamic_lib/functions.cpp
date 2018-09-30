@@ -63,7 +63,6 @@ void error_handler()
 }
 
 void CLR_INIT(EXP_FUNCTIONS *funcs) {
-	printf("[CLR_INIT] Success\n");
 	hb = funcs;
 }
 

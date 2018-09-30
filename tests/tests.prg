@@ -18,8 +18,10 @@ PROCEDURE Main
 	aValue := __CLR_CALL_STATIC(pAssembly, "MyNamespace.Test1", "SumArrayElements", {1,{{2,3,4}, {{5}}}})
 	TEST(4, 1+2+3+4+5, aValue)	
 
-	// TODO: Add tests with float numbers (required relative number comparasion instead default)
+	aValue := __CLR_CALL_STATIC(pAssembly, "MyNamespace.Test2", "ReturnUnsupportedType")
+	TEST(5, NIL, aValue)
 
+	// TODO: Add tests with float numbers (required relative number comparasion instead default)
 RETURN
 
 FUNCTION ARRVALTYPE(aData)

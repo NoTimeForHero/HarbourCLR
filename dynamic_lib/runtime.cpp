@@ -143,8 +143,6 @@ CLR_Object CLR_Assembly::CreateInstance(PWSTR pszClassName, CComSafeArray<VARIAN
 
 _AppDomainPtr CLR_Runtime::getDefaultAppDomain()
 {
-	printf("CLR_Runtime::getDefaultAppDomain()\n");
-
 	IUnknownPtr spAppDomainThunk = NULL;
 	_AppDomainPtr spDefaultAppDomain = NULL;
 
@@ -165,11 +163,9 @@ _AssemblyPtr CLR_Runtime::LoadAssembly(PWSTR pszAssemblyName)
 		return cachedAssemblies.at(pszAssemblyName);
 	}
 
-
 	_AssemblyPtr spAssembly = NULL;
 
 	const bstr_t bstrAssemblyName(pszAssemblyName);
-	wprintf(L"Loading assembly: %s\n", pszAssemblyName);
 
 	hr = spDefaultAppDomain->Load_2(bstrAssemblyName, &spAssembly);
 	if (FAILED(hr)) throw NetException("Assembly loading", hr);
@@ -190,7 +186,6 @@ inline _TypePtr CLR_Runtime::GetType(_AssemblyPtr spAssembly, PWSTR pszClassName
 	const bstr_t bstrTypeName(pszClassName);
 
 	_TypePtr spType = NULL;
-	wprintf(L"Loading type: %s\n", pszClassName);
 
 	// Get the Type of CSSimpleObject.
 	hr = spAssembly->GetType_2(bstrTypeName, &spType);
@@ -213,7 +208,6 @@ CLR_Assembly CLR_Runtime::Load(PWSTR pszAssemblyName)
 
 CLR_Runtime::~CLR_Runtime()
 {
-	printf("[CLR_Runtime] DESTRUCTOR CALLED\n");
 	for (auto const& x : cachedAssemblies)
 		((_AssemblyPtr)x.second).Release();
 
@@ -228,8 +222,6 @@ CLR_Runtime::~CLR_Runtime()
 
 CLR_Runtime::CLR_Runtime(PCWSTR pszVersion)
 {
-	wprintf(L"Load and start the .NET runtime %s\n", pszVersion);
-
 	hr = CLRCreateInstance(CLSID_CLRMetaHost, IID_PPV_ARGS(&pMetaHost));
 	if (FAILED(hr)) throw NetException("CLRCreateInstance", hr);
 
@@ -363,8 +355,6 @@ void CLR_Runtime::print_variant(variant_t value)
 			                                            nullptr);
 			std::string strTo(size_needed, 0);
 			WideCharToMultiByte(CP_UTF8, 0, bstr, (int)bstr.length(), &strTo[0], size_needed, nullptr, nullptr);
-
-			printf("%s", strTo.c_str());
 		}
 		break;
 	case VT_DISPATCH:

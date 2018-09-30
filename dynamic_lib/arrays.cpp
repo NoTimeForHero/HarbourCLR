@@ -159,8 +159,6 @@ PHB_ITEM SAFEARRAY_TO_HBARRAY(variant_t tValue)
 	int startI = 0;
 
 array_foreach:
-	if (startI < 1) CLR_Runtime::print_variant(tValue);
-
 	if (V_ISARRAY(&tValue)) // Is Array
 	{
 
@@ -186,7 +184,6 @@ array_foreach:
 			}
 
 			hb->arrayAdd(pArray, VARIANT_TO_PHBITM(pSafeArray[i]));
-			CLR_Runtime::print_variant(pSafeArray[i]);
 		}
 
 		if (!arrStack.empty())

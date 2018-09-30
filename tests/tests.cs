@@ -35,4 +35,11 @@ namespace MyNamespace
 		return sum;
 	}
     }
+  
+    public class Test2
+    {
+	public static Test1 ReturnUnsupportedType() {
+		return new Test1();
+	}
+    }	
 }
