@@ -225,9 +225,8 @@ array_foreach:
 	}
 	else
 	{
-		for (int i = 0; i < 5; i++) printf("WARNING: Unknown Return Type!\n");
-		system("pause");
-		//hb->errInternal(2040, "Return type is primitive!", NULL, NULL);
+		// TODO: Release Item allocated before
+		pArray = VARIANT_TO_PHBITM(tValue);
 	}
 	return pArray;
 }

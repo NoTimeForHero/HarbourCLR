@@ -15,7 +15,7 @@
       ],
       "defines": [ "_DEBUG" ],
       "intelliSenseMode": "windows-msvc-x86",
-      "forcedInclude": [ "pch.h", "C:\\MiniGUI\\SAMPLES\\4PUBLISH\\HB_CLR_v4\\CLR_LIB\\mscorlib.tlh" ],
+      "forcedInclude": [ "pch.h", "C:\\MiniGUI\\SAMPLES\\4PUBLISH\\HB_CLR_v4\\dynamic_lib\\mscorlib.tlh" ],
       "undefines": []
     }
   ]

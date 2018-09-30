@@ -1,5 +1,5 @@
 #pragma once
-#define DLL_VERSION "0.2 Alpha"
+#define DLL_VERSION "0.2.1 Alpha"
 
 // For direct access to PHB_ITEM.asXXX.value methods
 // HB_IS_XXX(xxx) has a lot of additional useless checkings

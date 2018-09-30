@@ -8,6 +8,7 @@ In current stage of this library you may need a write own additional CLR assembl
 * Classes instead *__CLR_xxxx(\*ptr, ...)* methods
 * Realize cleanup (with hb_retptrGC?)
 * Check is it ok to free HB_errInternal const char * message after call
+* Normal error messages in harbour (rewrite NetException for support call stack)
 * Callbacks (with additional C# assembly for normal syntax?)
 * More samples
 
