@@ -1,4 +1,5 @@
 ﻿# Harbour CLR Interop - Alpha
+(Русский README)[README_RU.md]
 
 A library that allows to Harbour load and execute any CLR (.NET) assemblies.
 In current stage of this library you may need a write own additional CLR assembly to prevent memory leaks and unxepected types conversion.
@@ -11,11 +12,11 @@ Installed versions of .NET Framework in your machine you can get inside director
 3. Add to project output directory needed CLR assemblies.
 4. Load CLR runtime by creating instance CLR_RUNTIME():New("v4.0.30319")
 5. Call CLR_RUNTIME:LoadAssembly(ASSEMBLY_NAME) to load needed assembly (it return new instance of class CLR_ASSEMBLY)
-6. Now you can CLR call static method by CLR_ASSEMBLY->CallStatic(TYPE_NAME, ...ARGS...)
+6. Now you can CLR call static method by CLR_ASSEMBLY->CallStatic(TYPE_NAME, ...ARGS...), that returns any value of supported types
 7. To create new CLR_OBJECT instance use CLR_ASSEMBLY->CreateInstance(TYPE_NAME, ...ARGS..)
-8. To call instance methods on created objects use CLR_OBJECT->CALL(...ARGS...)
+8. To call instance methods on created objects use CLR_OBJECT->CALL(...ARGS...), that returns any value of supported types
 
-You can also look [example directory](example\demo_oop.prg) for more information
+You can also look [example directory](example/demo_oop.prg) for more information
 
 ## Type Conversions
 ### Supported Types:
@@ -52,7 +53,7 @@ You can also look [example directory](example\demo_oop.prg) for more information
 * Callbacks (with additional C# assembly for normal syntax?)
 * More samples
 
-## Finished
+### Finished
 * Static library for CLR support (with HB_FUNCs like __CLR_INIT)
 * Classes instead *__CLR_xxxx(\*ptr, ...)* methods
 * Unit-testing
