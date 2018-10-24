@@ -1,5 +1,5 @@
 PROCEDURE Main_Raw
-	LOCAL aData, pCLR, pAssembly, pObj, xVal
+	LOCAL pCLR, pAssembly, pObj, xVal
 	LOCAL aValue
 
 	__CLR_INIT()

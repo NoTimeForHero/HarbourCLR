@@ -1,5 +1,5 @@
 PROCEDURE Main_OOP
-	LOCAL aData, oCLR, oAssembly, oClass3, xVal
+	LOCAL oCLR, oAssembly, oClass3, xVal
 	LOCAL aValue
 
 	? "Harbour CLR: Object Oriented Programming"
