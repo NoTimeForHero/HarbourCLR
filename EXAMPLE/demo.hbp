@@ -11,4 +11,7 @@
 
 # Main files
 demo.prg
+demo_raw.prg
+demo_oop.prg
+
 -lclr

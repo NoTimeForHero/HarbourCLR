@@ -5,7 +5,7 @@ In current stage of this library you may need a write own additional CLR assembl
 
 ## Roadmap
 * Write normal README.md
-* Classes instead *__CLR_xxxx(\*ptr, ...)* methods
+* Return CLR Objects from methods like __CLR_CALL_STATIC/__CLR_CALL, not only primitive types
 * Realize cleanup (with hb_retptrGC?)
 * Check is it ok to free HB_errInternal const char * message after call
 * Normal error messages in harbour (rewrite NetException for support call stack)
@@ -14,6 +14,7 @@ In current stage of this library you may need a write own additional CLR assembl
 
 ## Finished
 * Static library for CLR support (with HB_FUNCs like __CLR_INIT)
+* Classes instead *__CLR_xxxx(\*ptr, ...)* methods
 * Unit-testing
 
 ## Type Conversions
