@@ -65,7 +65,11 @@ HINSTANCE HINST_DLL;
 
 void throwFuncLoadError(char *funcName) {
 	char buffer[255];
+#ifdef _MSC_VER
 	sprintf_s(buffer, 255, "Can't load function (GetLastError code %d): %s\n", GetLastError(), funcName);	
+#else
+	sprintf(buffer, "Can't load function (GetLastError code %d): %s\n", GetLastError(), funcName);
+#endif
 	hb_errInternal(2091, (const char*)buffer, NULL, NULL);		
 }
 
@@ -73,7 +77,11 @@ HB_FUNC(__CLR_INIT) {
         HINST_DLL = LoadLibrary(GLOBAL_DLL_NAME);
 	if (!HINST_DLL) {
 		char buffer[255];
+#ifdef _MSC_VER
 		sprintf_s(buffer, 255, "Can't load DLL (GetLastError code %d): %s\n", GetLastError(), GLOBAL_DLL_NAME);
+#else
+		sprintf(buffer, "Can't load DLL (GetLastError code %d): %s\n", GetLastError(), GLOBAL_DLL_NAME);
+#endif
 		hb_errInternal(2090, (const char*)buffer, NULL, NULL);		
 		return;
 	}
