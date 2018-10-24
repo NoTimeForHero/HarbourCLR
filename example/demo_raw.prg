@@ -4,10 +4,8 @@ PROCEDURE Main_Raw
 
 	__CLR_INIT()
 	? "Harbour CLR: Raw DLL Functions"
-	? __CLR_VERSION()
+	? "Library Version", __CLR_VERSION()
 	INKEY(5)
-
-	aData := { NIL, .T., 244.44, 2,4,4,5,5, {10,10, .T.}, {20, 255.55}, {NIL},{{{{{44}}}}} }
 
 	pCLR := __CLR_GET_RUNTIME("v4.0.30319")
 	pAssembly := __CLR_LOAD_ASSEMBLY(pCLR, "MyAssembly")
